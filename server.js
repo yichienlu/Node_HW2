@@ -9,10 +9,12 @@ const handleError = require('./handleError.js');
 
 const Post = require('./models/post')
 
-const DB = process.env.DATABASE.replace(
-  '<password>',
-  process.env.DATABASE_PASSWORD
-)
+// const DB = process.env.DATABASE.replace(
+//   '<password>',
+//   process.env.DATABASE_PASSWORD
+// )
+const DB = "mongodb://localhost:27017/testPosts"
+
 mongoose
 .connect(DB)
 .then(() => console.log('資料庫連接成功'));
@@ -49,9 +51,13 @@ const requestListener = async(req, res)=>{
     })
   }else if(req.url.startsWith("/posts/") && req.method=="DELETE"){
     const id = req.url.split('/').pop();
-    await Post.findByIdAndDelete(id);
-    handleSuccess(res, "文章刪除成功", null)
-
+    try{
+      await Post.findByIdAndDelete(id);
+      handleSuccess(res, "文章刪除成功", null)
+    }
+    catch(error){
+      handleError(res, "文章刪除失敗", null)
+    }
   }else if(req.method == "OPTIONS"){
     res.writeHead(200,headers);
     res.end();
