@@ -9,11 +9,11 @@ const handleError = require('./handleError.js');
 
 const Post = require('./models/post')
 
-// const DB = process.env.DATABASE.replace(
-//   '<password>',
-//   process.env.DATABASE_PASSWORD
-// )
-const DB = "mongodb://localhost:27017/testPosts"
+const DB = process.env.DATABASE.replace(
+  '<password>',
+  process.env.DATABASE_PASSWORD
+)
+// const DB = "mongodb://localhost:27017/testPosts"
 
 mongoose
 .connect(DB)
